@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siqi Huang - Portfolio | Data & Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+/* --- PROFESSIONAL COLOR PALETTE --- */
+:root {
+    --primary-text: #1a1a1a;
+    --secondary-text: #555;
+    --background-light: #ffffff;
+    --background-subtle: #f0f0f0;
+    --accent-blue: #007bff; /* Business/Data Blue */
+    --accent-green: #28a745; /* Marketing/Success Green */
+    --accent-red: #dc3545; /* New: for exit/action */
+    --hover-shadow: rgba(0, 123, 255, 0.3); /* Stronger shadow */
+    --border-initial: 5px;
+    --border-hover: 10px; /* Thicker hover border for more pop */
+}
+
+/* Base Styles */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--background-light);
+    color: var(--primary-text);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 10vh;
+}
+
+/* 🎨 Interactive Background (Subtle Moving Gradient) 🎨 */
+#moving-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* Using extremely light, off-white colors for subtlety */
+    background: linear-gradient(-45deg, #f7f7f7, #e8e8e8, #ffffff, #e8e8e8);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite; /* Slow, continuous shift */
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Main Content Wrapper */
+#main-content {
+    opacity: 0;
+    transition: opacity 1.0s ease-in-out;
+    display: none;
+    /* Adjusted top padding to make sure the main content is visible */
+    padding: 20px 20px 60px 20px;
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* H1: Unique, Modern Heading Font */
+h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 4.5em;
+    /* Kept margins minimal */
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.1; 
+}
+
+/* H2: Secondary Heading Font */
+h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--accent-blue);
+    margin-top: 0;
+    /* Keeps project cards pulled up */
+    margin-bottom: 3em; 
+    text-transform: uppercase;
+    font-size: 1.1em;
+    letter-spacing: 3px;
+}
+
+/* New Style for Arrow and Click Prompt */
+.project-prompt {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--secondary-text);
+    font-size: 1.1em;
+    margin-top: 1em;
+    margin-bottom: 2em; /* REDUCED SPACE HERE */
+}
+
+/* --- Arrow Animation Keyframes --- */
+@keyframes arrow-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px); /* Subtle lift */
+    }
+}
+
+.project-prompt .arrow {
+    display: block;
+    font-size: 2em;
+    line-height: 1;
+    margin-top: 5px;
+    color: var(--accent-blue);
+    /* Apply the subtle animation */
+    animation: arrow-bounce 1.5s infinite ease-in-out; 
+}
+/* --- END: Arrow Animation --- */
+
+/* --- Project Card Layout --- */
+.projects-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Subtle perspective tilt for 'hanging' papers effect */
+    transform: perspective(1000px) rotateX(1deg);
+}
+
+.project-card {
+    /* --- Initial state for reveal animation --- */
+    opacity: 0;
+    transform: translateY(40px) rotateZ(-1deg);
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-width 0.3s;
+    /* ----------------------------------------------- */
+
+    width: 280px;
+    min-height: 350px;
+    padding: 30px;
+    background-color: var(--background-light);
+    border: 1px solid var(--background-subtle);
+    border-top: var(--border-initial) solid var(--accent-blue);
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+    /* Base transforms for the 'hanging' look */
+    transform: rotateZ(-1deg);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out, border-color 0.3s, border-width 0.3s;
+    position: relative;
+    overflow: hidden; /* For the CTA button animation */
+}
+
+.project-card:nth-child(even) {
+    border-top-color: var(--accent-green);
+    transform: rotateZ(1deg);
+}
+
+/* --- ENHANCED HOVER ANIMATION: Grow the border and lift/rotate to straight --- */
+.project-card:hover {
+    /* Ensures the card lift keeps the CTA button on screen */
+    transform: translateY(-12px) scale(1.03) rotateZ(0deg); 
+    box-shadow: 0 18px 45px var(--hover-shadow); /* Stronger shadow */
+    border-top-width: var(--border-hover);
+}
+.project-card:hover .cta-overlay {
+    /* Ensures VIEW PROJECT is visible on hover */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- Clearer Click Encicer (CTA Overlay) --- */
+.cta-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Height of the CTA button/bar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--accent-blue); /* Matches the primary color */
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+    opacity: 0; /* Hidden initially */
+    transform: translateY(100%); /* Slides up from the bottom */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.project-card:nth-child(even) .cta-overlay {
+    background: var(--accent-green); /* Matches the secondary color */
+}
+/* --- END: CTA Overlay --- */
+
+
+.project-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--primary-text);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.project-card .category {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+    letter-spacing: 1px;
+}
+.project-card:nth-child(even) .category {
+    color: var(--accent-green);
+}
+
+.project-card p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1em;
+    line-height: 1.6;
+    color: var(--secondary-text);
+    margin-top: 0;
+    /* Ensure space for the CTA overlay */
+    margin-bottom: 70px;
+}
+
+/* --- REVEAL ANIMATION --- */
+.project-card.is-visible {
+    opacity: 1;
+    transform: translateY(0) rotateZ(-1deg);
+}
+
+.project-card:nth-child(even).is-visible {
+    transform: translateY(0) rotateZ(1deg);
+}
+
+/* Responsive adjustment for smaller screens: stack cards vertically */
+@media (max-width: 1200px) {
+    .projects-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        transform: none; /* Remove perspective tilt on small screens */
+    }
+    .project-card {
+        width: 80%;
+        max-width: 450px;
+        transform: rotateZ(0deg);
+    }
+    .project-card:nth-child(even) {
+        transform: rotateZ(0deg);
+    }
+    .project-card:hover {
+        transform: translateY(-5px) scale(1.01) rotateZ(0deg);
+    }
+}
+/* --- END: Project Card Layout --- */
+
+
+/* --- L'Oréal Video Viewer Styles (New/Modified) --- */
+#video-viewer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    gap: 20px;
+    /* Use the same background as the main viewer for consistency */
+    background: var(--background-light); 
+    max-width: 600px;
+    min-height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    position: relative; /* Needed for positioning the close button */
+}
+
+/* UPDATED: CLEANER EXIT BUTTON STYLE */
+.exit-button {
+    /* Base styles for all Exit buttons in the viewer */
+    background: var(--accent-red);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+}
+.exit-button:hover {
+    background: #c82333;
+}
+
+/* New clean, circular style for the pop-up buttons (video and cert gallery) */
+#video-viewer .exit-button,
+#cert-gallery-content .exit-button {
+    position: absolute;
+    top: 10px; 
+    right: 10px;
+    width: 30px; 
+    height: 30px;
+    padding: 0; 
+    border: 2px solid var(--secondary-text); 
+    border-radius: 50%; 
+    background: transparent; 
+    color: var(--secondary-text); 
+    font-size: 1.5em; 
+    line-height: 1; 
+    transition: all 0.2s ease-in-out;
+    display: flex; /* For centering the X */
+    justify-content: center;
+    align-items: center;
+    font-weight: 400; /* Lighter font weight for 'X' */
+}
+
+#video-viewer .exit-button:hover,
+#cert-gallery-content .exit-button:hover {
+    background: var(--accent-red);
+    color: white;
+    border-color: var(--accent-red);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.youtube-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ff0000; /* YouTube Red */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+.youtube-button:hover {
+    background-color: #cc0000;
+    transform: translateY(-2px);
+}
+/* --- END: L'Oréal Video Viewer Styles --- */
+
+/* Viewer Styles (Unchanged) */
+.viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    display: none;
+    /* Changed to column to handle both project viewer and video popup */
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center; /* Center content for the video popup */
+    overflow-y: auto;
+    z-index: 9999;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    padding-top: 60px; /* Add space for the control bar */
+    /* Increased padding-bottom to ensure the last page is visible, supplemented by the blank page spacer */
+    padding-bottom: 60px; 
+}
+
+/* Ensure project image content scrolls */
+#viewer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Ensures vertical scrolling works for PDF viewer mode */
+    min-height: 100%;
+    width: 100%;
+}
+
+.viewer.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* General image styling for PDF/Project viewer */
+#viewer-content img {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px 0;
+    transform: scale(var(--zoom-level, 1));
+    transform-origin: top center;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* CERTIFICATION GALLERY STYLES */
+/* UPDATED: Fixed size and center content */
+#cert-gallery-content {
+    /* Set a fixed size for the main content box for consistent viewer size */
+    width: 750px; 
+    max-width: 90%; 
+    min-height: 500px; /* Consistent minimum height */
+    box-sizing: border-box; /* Include padding/border in element's total width and height */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 20px;
+    background: var(--background-light); 
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    /* MODIFIED: Added a subtle negative Y transform to move the gallery slightly up from the true center */
+    transform: translateY(-5%);
+}
+/* END UPDATED */
+
+/* Note: Exit button style is now handled by the #cert-gallery-content .exit-button selector above */
+
+/* UPDATED: Fixed size for consistent image viewport */
+#cert-gallery-image-container {
+    width: 100%; /* Take full width of parent (750px) */
+    height: 500px; /* Consistent viewport height */
+    overflow: hidden;
+    margin: 20px 0 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    position: relative; 
+    display: flex; /* Added for image centering */
+    justify-content: center;
+    align-items: center;
+}
+/* END UPDATED */
+
+/* UPDATED: Ensure image fits cleanly inside the fixed container */
+#cert-gallery-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Scales image to fit container while preserving aspect ratio */
+    display: block;
+    margin: 0;
+    transition: none; 
+    transform: none; 
+}
+/* END UPDATED */
+
+#cert-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.6em;
+    color: var(--primary-text);
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+/* UPDATED: Gallery Navigation Button Style for Minimal Solid Arrows */
+.gallery-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333; /* Solid dark grey */
+    color: white;
+    border: none;
+    padding: 10px 12px; /* Smaller padding */
+    cursor: pointer;
+    font-size: 1.5em; /* Smaller font size */
+    z-index: 10;
+    transition: background 0.2s;
+    border-radius: 4px; /* Subtle rounding */
+    font-weight: 400; /* More minimal font weight */
+}
+/* END UPDATED */
+
+.gallery-nav-button:hover {
+    background: var(--accent-blue);
+}
+
+#prev-cert {
+    /* Pushed outside the content box boundary */
+    left: -35px; 
+}
+
+#next-cert {
+    /* Pushed outside the content box boundary */
+    right: -35px;
+}
+/* END: CERTIFICATION GALLERY STYLES */
+
+
+/* FIX: Control Bar now fixed to viewport regardless of viewer transform */
+.control-bar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    gap: 10px;
+}
+
+.control-bar button {
+    background: var(--accent-blue);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.control-bar button:hover {
+    background: #0056b3;
+}
+
+.control-bar .exit-button {
+    background: var(--accent-red);
+}
+.control-bar .exit-button:hover {
+    background: #c82333;
+}
+
+/* Intro Screen Styles (Unchanged) */
+#intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: transform 1.0s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+#intro-screen h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 6em;
+    margin: 0;
+    letter-spacing: 8px;
+    opacity: 1;
+    animation: fadeInName 1.0s ease-out;
+    font-weight: 300;
+    color: var(--primary-text);
+}
+
+@keyframes fadeInName {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+    transform: translateY(-100vh);
+}
+
+/* --- New Certification Section Styles --- */
+.certifications-section {
+    max-width: 1000px;
+    margin: 6em auto 4em auto; /* Extra top margin for scrolling past cards */
+    padding: 40px;
+    background-color: var(--background-subtle);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.certifications-section h2 {
+    color: var(--accent-blue);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    letter-spacing: 1px;
+}
+
+.cert-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.cert-item {
+    width: 180px;
+    text-align: center;
+    transition: transform 0.2s;
+    cursor: pointer; /* Added cursor for click indication */
+}
+
+.cert-item:hover {
+    transform: translateY(-5px);
+}
+
+.cert-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.cert-item:hover img {
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2);
+}
+
+.cert-item p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 0.9em;
+    color: var(--primary-text);
+    margin-top: 10px;
+}
+/* --- END: New Certification Section Styles --- */
+</style>
+</head>
+<body>
+
+<div id="moving-gradient"></div>
+
+<div id="intro-screen">
+    <h1>Siqi Huang</h1>
+</div>
+
+<div class="control-bar" id="pdf-control-bar" style="display: none;">
+    <button onclick="zoomOut()">Zoom Out (-)</button>
+    <button onclick="zoomIn()">Zoom In (+)</button>
+    <button class="exit-button" onclick="closeViewer()">Exit (X)</button>
+</div>
+
+<div id="main-content">
+    <h1>Siqi Huang</h1>
+    <h2>Data & Marketing Portfolio</h2>
+    
+    <p class="project-prompt">
+        Click to view all projects
+        <span class="arrow">&#8595;</span>
+    </p>
+    <div class="projects-container">
+        
+        <div class="project-card" data-project="tiktok" onclick="openViewer('tiktok')">
+            <span class="category">Digital Marketing</span>
+            <h3>Tenniscore: TikTok Trend Analysis</h3>
+            <p>Analyzed the viral Tenniscore fashion trend using Exolyt to generate insights and brand strategies for fashion and influencer marketing.</p>
+            <div class="cta-overlay">VIEW PROJECT</div>
+        </div>
+
+        <div class="project-card" data-project="ubisoft" onclick="openViewer('ubisoft')">
+            <span class="category">Data Analytics</span>
+            <h3>Ubisoft: Twitch Audience Analysis</h3>
+            <p>Used NLP and data visualization to study 10K+ Twitch chats, identifying gender-based engagement patterns and influencer opportunities.</p>
+            <div class="cta-overlay">VIEW PROJECT</div>
+        </div>
+
+        <div class="project-card" data-project="masterthesis" onclick="openViewer('masterthesis')">
+            <span class="category">Strategic Consulting</span>
+            <h3>Master Thesis: Visual Novels & Non-Linear Narratives</h3>
+            <p>Conducted research on audience perceptions of visual novels and the factors shaping their success in contemporary storytelling.</p>
+            <div class="cta-overlay">VIEW PROJECT</div>
+        </div>
+        
+        <div class="project-card" data-project="laredoute" onclick="openViewer('laredoute')">
+            <span class="category">Data Analytics</span>
+            <h3>La Redoute: Power BI Dashboard</h3>
+            <p>Built an interactive Power BI dashboard processing 300M+ records to optimize marketing performance and conversion strategy.</p>
+            <div class="cta-overlay">VIEW PROJECT</div>
+        </div>
+
+        <div class="project-card" data-project="loreal" onclick="openVideoViewer()">
+            <span class="category">Marketing Competition</span>
+            <h3>L’Oréal Brandstorm: HandiBeauty Innovation</h3>
+            <p>Created HandiBeauty, an AI-powered makeup glove promoting accessibility and inclusion, backed by global user research insights.</p>
+            <div class="cta-overlay">WATCH VIDEO</div>
+        </div>
+
+    </div>
+
+    <div class="certifications-section">
+        <h2>Technical Proficiencies & Certifications</h2>
+        <div class="cert-grid">
+            <div class="cert-item" onclick="openCertGallery(0)">
+                <img src="https://i.ibb.co/W4vm6821/Microsoft-Certified-CRM.png" alt="Microsoft Certified CRM">
+                <p>Microsoft Certified: Dynamics 365</p>
+            </div>
+            <div class="cert-item" onclick="openCertGallery(1)">
+                <img src="https://i.ibb.co/dsL0hF3K/LVMH-Certification.png" alt="LVMH Certification">
+                <p>LVMH Certificate - Luxury Brand Strategy</p>
+            </div>
+            <div class="cert-item" onclick="openCertGallery(2)">
+                <img src="https://i.ibb.co/qP3HpRT/google-analytics-certification.jpg" alt="Google Analytics Certification">
+                <p>Google Analytics Certified</p>
+            </div>
+            <div class="cert-item" onclick="openCertGallery(3)">
+                <img src="https://i.ibb.co/5h4gKkb1/L-Ore-al-Brandstorm.jpg" alt="L'Oréal Brandstorm Participant">
+                <p>L'Oréal Brandstorm Participant</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="viewer" class="viewer">
+        
+        <div id="viewer-content"></div>
+
+        <div id="video-viewer" style="display: none;">
+            <button class="exit-button" onclick="closeViewer()">&times;</button> 
+            <p style="font-size: 1.2em; color: var(--secondary-text); margin-bottom: 5px;">A video summary of the</p>
+            <h3 style="font-size: 2em; margin: 0; color: var(--primary-text);">L'Oréal Brandstorm Project</h3>
+            <a href="https://youtu.be/6z4O9Pu1xSc" target="_blank" class="youtube-button">
+                Watch on YouTube
+            </a>
+        </div>
+
+        <div id="cert-gallery-content" style="display: none;">
+            <button class="exit-button" onclick="closeViewer()">&times;</button> 
+            <h3 id="cert-title"></h3>
+            <button id="prev-cert" class="gallery-nav-button" onclick="changeCert(-1)">&#x25C0;</button>
+            <div id="cert-gallery-image-container">
+                <img id="current-cert-image" src="" alt="Certification">
+            </div>
+            <button id="next-cert" class="gallery-nav-button" onclick="changeCert(1)">&#x25B6;</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// --- Project Data (Unchanged) ---
+const projects = {
+ubisoft: [ 
+"https://i.ibb.co/bMFrsrQm/UBISOFT-PROJECT-page-0001.jpg", "https://i.ibb.co/fdNJ1x06/UBISOFT-PROJECT-page-0002.jpg", "https://i.ibb.co/yn7RH6kD/UBISOFT-PROJECT-page-0003.jpg", "https://i.ibb.co/SXgfRSjS/UBISOFT-PROJECT-page-0004.jpg", "https://i.ibb.co/kVsJqs5K/UBISOFT-PROJECT-page-0005.jpg", "https://i.ibb.co/Df7SnPkh/UBISOFT-PROJECT-page-0006.jpg", "https://i.ibb.co/LXDJD9zv/UBISOFT-PROJECT-page-0007.jpg", "https://i.ibb.co/21WCFTYx/UBISOFT-PROJECT-page-0008.jpg", "https://i.ibb.co/Z6YyVrqw/UBISOFT-PROJECT-page-0009.jpg", "https://i.ibb.co/Y7DgtGFG/UBISOFT-PROJECT-page-0010.jpg", "https://i.ibb.co/0V22VWnj/UBISOFT-PROJECT-page-0011.jpg", "https://i.ibb.co/7xVqPC0f/UBISOFT-PROJECT-page-0012.jpg", "https://i.ibb.co/gb0xcNth/UBISOFT-PROJECT-page-0013.jpg", "https://i.ibb.co/zhhQBtVH/UBISOFT-PROJECT-page-0014.jpg", "https://i.ibb.co/99P4ckgX/UBISOFT-PROJECT-page-0015.jpg", "https://i.ibb.co/bgR9jXc0/UBISOFT-PROJECT-page-0016.jpg", "https://i.ibb.co/scmSFBd/UBISOFT-PROJECT-page-0017.jpg", "https://i.ibb.co/cc1HqTRV/UBISOFT-PROJECT-page-0018.jpg", "https://i.ibb.co/wZxSMw9N/UBISOFT-PROJECT-page-0019.jpg", "https://i.ibb.co/XZRvkgTP/UBISOFT-PROJECT-page-0020.jpg", "https://i.ibb.co/9mLVtqYt/UBISOFT-PROJECT-page-0021.jpg", "https://i.ibb.co/TDGrcnDg/UBISOFT-PROJECT-page-0022.jpg", "https://i.ibb.co/VcQ92n6m/UBISOFT-PROJECT-page-0023.jpg", "https://i.ibb.co/C5QkXBL9/UBISOFT-PROJECT-page-0024.jpg", "https://i.ibb.co/C3ZtMKSf/UBISOFT-PROJECT-page-0025.jpg", "https://i.ibb.co/k6SCDcQY/UBISOFT-PROJECT-page-0026.jpg", "https://i.ibb.co/vCZVFhy2/UBISOFT-PROJECT-page-0027.jpg", "https://i.ibb.co/1G4SkDvW/UBISOFT-PROJECT-page-0028.jpg", "https://i.ibb.co/67rwS38D/UBISOFT-PROJECT-page-0029.jpg", "https://i.ibb.co/1fLMg6LQ/UBISOFT-PROJECT-page-0030.jpg", "https://i.ibb.co/xqdKrdz4/UBISOFT-PROJECT-page-0031.jpg", "https://i.ibb.co/35Yv0vzG/UBISOFT-PROJECT-page-0032.jpg", "https://i.ibb.co/1Jb3RQZf/UBISOFT-PROJECT-page-0033.jpg", "https://i.ibb.co/SD13Jvg1/UBISOFT-PROJECT-page-0034.jpg", "https://i.ibb.co/wNrvnZFS/UBISOFT-PROJECT-page-0035.jpg"
+],
+tiktok: [
+"https://i.ibb.co/Cp8RbpJt/Case-Study-pages-to-jpg-0001.jpg", "https://i.ibb.co/gBm3WCN/Case-Study-pages-to-jpg-0002.jpg", "https://i.ibb.co/qYxbn5gS/Case-Study-pages-to-jpg-0003.jpg", "https://i.ibb.co/1tCQSP4M/Case-Study-pages-to-jpg-0004.jpg", "https://i.ibb.co/7NCy6FRj/Case-Study-pages-to-jpg-0005.jpg", "https://i.ibb.co/qMbf8fny/Case-Study-pages-to-jpg-0006.jpg", "https://i.ibb.co/ks7Xm3Lv/Case-Study-pages-to-jpg-0007.jpg"
+],
+laredoute: [
+"https://i.ibb.co/84c5BM9c/Report-Power-BI-La-Redoute-page-0001.jpg", "https://i.ibb.co/8LkmFk7V/Report-Power-BI-La-Redoute-page-0002.jpg", "https://i.ibb.co/DPyC4MNj/Report-Power-BI-La-Redoute-page-0003.jpg", "https://i.ibb.co/NnFSkYFq/Report-Power-BI-La-Redoute-page-0004.jpg", "https://i.ibb.co/XfsfFW6j/Report-Power-BI-La-Redoute-page-0005.jpg", "https://i.ibb.co/5gVqx2BY/Report-Power-BI-La-Redoute-page-0006.jpg", "https://i.ibb.co/5hDYrwxW/Report-Power-BI-La-Redoute-page-0007.jpg", "https://i.ibb.co/sdpDwfK7/Report-Power-BI-La-Redoute-page-0008.jpg", "https://i.ibb.co/rf6hDhs1/Report-Power-BI-La-Redoute-page-0009.jpg", "https://i.ibb.co/PZGG9T9k/Report-Power-BI-La-Redoute-page-0010.jpg", "https://i.ibb.co/23q6Dp2S/Report-Power-BI-La-Redoute-page-0011.jpg", "https://i.ibb.co/wN8cSPmY/Report-Power-BI-La-Redoute-page-0012.jpg", "https://i.ibb.co/JwjGpQS8/Report-Power-BI-La-Redoute-page-0013.jpg", "https://i.ibb.co/1tPS3Pnr/Report-Power-BI-La-Redoute-page-0014.jpg", "https://i.ibb.co/2356DSH1/Report-Power-BI-La-Redoute-page-0015.jpg", "https://i.ibb.co/GQfd5xqT/Report-Power-BI-La-Redoute-page-0016.jpg", "https://i.ibb.co/gsqp1JV/Report-Power-BI-La-Redoute-page-0017.jpg", "https://i.ibb.co/VWp7b3GD/Report-Power-BI-La-Redoute-page-0018.jpg", "https://i.ibb.co/9Hwgvp5R/Report-Power-BI-La-Redoute-page-0019.jpg", "https://i.ibb.co/FLf5zZCS/Report-Power-BI-La-Redoute-page-0020.jpg", "https://i.ibb.co/fVMyWVvB/Report-Power-BI-La-Redoute-page-0021.jpg", "https://i.ibb.co/0j7BFPrF/Report-Power-BI-La-Redoute-page-0022.jpg", "https://i.ibb.co/PBWwWmM/Report-Power-BI-La-Redoute-page-0023.jpg", "https://i.ibb.co/DHMpwk3t/Report-Power-BI-La-Redoute-page-0024.jpg", "https://i.ibb.co/84YyxYYY/Report-Power-BI-La-Redoute-page-0025.jpg", "https://i.ibb.co/HLH70wDh/Report-Power-BI-La-Redoute-page-0026.jpg", "https://i.ibb.co/VWN4zmNW/Report-Power-BI-La-Redoute-page-0027.jpg", "https://i.ibb.co/zT8scyGT/Report-Power-BI-La-Redoute-page-0028.jpg"
+],
+masterthesis: [
+"https://i.ibb.co/1fcVGmgF/consulting-project-page-0001.jpg", "https://i.ibb.co/gZMpKgL5/consulting-project-page-0002.jpg", "https://i.ibb.co/tp1Fzbs9/consulting-project-page-0003.jpg", "https://i.ibb.co/Xfy5GmgD/consulting-project-page-0004.jpg", "https://i.ibb.co/JjXgZWYV/consulting-project-page-0005.jpg", "https://i.ibb.co/ns9LvVXZ/consulting-project-page-0006.jpg", "https://i.ibb.co/GQ5rnnQP/consulting-project-page-0007.jpg", "https://i.ibb.co/QF9ZX9Kz/consulting-project-page-0008.jpg", "https://i.ibb.co/tTfKMjJW/consulting-project-page-0009.jpg", "https://i.ibb.co/p6J94LNH/consulting-project-page-0010.jpg", "https://i.ibb.co/3ytvBgTH/consulting-project-page-0011.jpg", "https://i.ibb.co/ds9STG3C/consulting-project-page-0012.jpg", "https://i.ibb.co/XkrcbXCC/consulting-project-page-0013.jpg", "https://i.ibb.co/twF6khCP/consulting-project-page-0014.jpg", "https://i.ibb.co/5WzhRPVw/consulting-project-page-0015.jpg", "https://i.ibb.co/Tq18YDjL/consulting-project-page-0016.jpg", "https://i.ibb.co/5DBPhSK/consulting-project-page-0017.jpg", "https://i.ibb.co/JR5mNRry/consulting-project-page-0018.jpg", "https://i.ibb.co/g5YYbDL/consulting-project-page-0019.jpg", "https://i.ibb.co/d0vZmXtB/consulting-project-page-0020.jpg", "https://i.ibb.co/xKFWZMh9/consulting-project-page-0021.jpg", "https://i.ibb.co/fVPfwTJH/consulting-project-page-0022.jpg", "https://i.ibb.co/f3SryNV/consulting-project-page-0023.jpg", "https://i.ibb.co/wr33QJMy/consulting-project-page-0024.jpg", "https://i.ibb.co/BV6G0XMV/consulting-project-page-0025.jpg", "https://i.ibb.co/MDJLHJ6L/consulting-project-page-0026.jpg", "https://i.ibb.co/MxGVqFxW/consulting-project-page-0027.jpg", "https://i.ibb.co/Vp5J21Hy/consulting-project-page-0028.jpg", "https://i.ibb.co/4R1TVHjb/consulting-project-page-0029.jpg", "https://i.ibb.co/DZrjrdC/consulting-project-page-0030.jpg", "https://i.ibb.co/HfZhzjGq/consulting-project-page-0031.jpg", "https://i.ibb.co/jvzb15F2/consulting-project-page-0032.jpg", "https://i.ibb.co/rGYbHvfT/consulting-project-page-0033.jpg", "https://i.ibb.co/qY57g6CZ/consulting-project-page-0034.jpg", "https://i.ibb.co/jkcYkYHr/consulting-project-page-0035.jpg", "https://i.ibb.co/8LJR64f2/consulting-project-page-0036.jpg", "https://i.ibb.co/tTV40nKj/consulting-project-page-0037.jpg", "https://i.ibb.co/XfQXJKxb/consulting-project-page-0038.jpg", "https://i.ibb.co/wZDkkC5Z/consulting-project-page-0039.jpg", "https://i.ibb.co/rRy6DqgB/consulting-project-page-0040.jpg", "https://i.ibb.co/7NLgPHbM/consulting-project-page-0041.jpg", "https://i.ibb.co/mCtQytRT/consulting-project-page-0042.jpg", "https://i.ibb.co/TMNGzRDc/consulting-project-page-0043.jpg", "https://i.ibb.co/WwDgWc6/consulting-project-page-0044.jpg", "https://i.ibb.co/PzrCjZTj/consulting-project-page-0045.jpg", "https://i.ibb.co/WpygKyKp/consulting-project-page-0046.jpg", "https://i.ibb.co/DHTbQFcz/consulting-project-page-0047.jpg", "https://i.ibb.co/TMfMJWKB/consulting-project-page-0048.jpg", "https://i.ibb.co/v4pCHXNp/consulting-project-page-0049.jpg", "https://i.ibb.co/b5t3JYmz/consulting-project-page-0050.jpg", "https://i.ibb.co/Dfg6p5DN/consulting-project-page-0051.jpg", "https://i.ibb.co/PzV03ytt/consulting-project-page-0052.jpg", "https://i.ibb.co/8n2JFHWc/consulting-project-page-0053.jpg", "https://i.ibb.co/HpLwwXpx/consulting-project-page-0054.jpg", "https://i.ibb.co/DPNw1536/consulting-project-page-0055.jpg", "https://i.ibb.co/zhzhRKDS/consulting-project-page-0056.jpg", "https://i.ibb.co/wZQz06PV/consulting-project-page-0057.jpg", "https://i.ibb.co/jZ4Dhvtk/consulting-project-page-0058.jpg", "https://i.ibb.co/1J4MqhDd/consulting-project-page-0059.jpg", "https://i.ibb.co/kgHHyxhX/consulting-project-page-0060.jpg", "https://i.ibb.co/rRBYF7zz/consulting-project-page-0061.jpg", "https://i.ibb.co/TBDBRMPf/consulting-project-page-0062.jpg", "https://i.ibb.co/wZ66M80Z/consulting-project-page-0063.jpg", "https://i.ibb.co/d0G865pT/consulting-project-page-0064.jpg", "https://i.ibb.co/zwkfNVK/consulting-project-page-0065.jpg", "https://i.ibb.co/TDSDjdDf/consulting-project-page-0066.jpg"
+],
+// L'Oréal video project is handled by openVideoViewer()
+};
+
+const certifications = [
+    { url: "https://i.ibb.co/W4vm6821/Microsoft-Certified-CRM.png", title: "Microsoft Certified: Dynamics 365" },
+    { url: "https://i.ibb.co/dsL0hF3K/LVMH-Certification.png", title: "LVMH Certificate - Luxury Brand Strategy" },
+    { url: "https://i.ibb.co/qP3HpRT/google-analytics-certification.jpg", title: "Google Analytics Certified" },
+    { url: "https://i.ibb.co/5h4gKkb1/L-Ore-al-Brandstorm.jpg", title: "L'Oréal Brandstorm Participant" }
+];
+let currentCertIndex = 0;
+
+
+// --- Page Animation Logic (Unchanged) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const introScreen = document.getElementById('intro-screen');
+    const mainContent = document.getElementById('main-content');
+    const projectCards = document.querySelectorAll('.project-card');
+    const transitionDelay = 2000; 
+
+    function animateProjects() {
+        projectCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('is-visible');
+            }, 150 * index); 
+        });
+    }
+
+    function hideIntro() {
+        mainContent.style.display = 'block'; 
+        setTimeout(() => {
+            mainContent.style.opacity = 1;
+            animateProjects(); 
+        }, 10); 
+         
+        introScreen.classList.add('slide-up');
+
+        setTimeout(() => {
+            introScreen.style.display = 'none';
+        }, 1200);
+    }
+
+    setTimeout(hideIntro, transitionDelay);
+});
+// -------------------------------
+
+// --- Viewer Logic (Modified for PDF, Video, and Gallery) ---
+let currentZoomLevel = 1.0;
+const zoomStep = 0.2;
+const minZoom = 0.6;
+const maxZoom = 2.0;
+
+// Utility function to hide all viewer content modes and control bars
+function resetViewerModes() {
+    document.getElementById("viewer-content").style.display = 'none';
+    document.getElementById("pdf-control-bar").style.display = 'none'; // Ensure control bar is hidden
+    document.getElementById("video-viewer").style.display = 'none';
+    document.getElementById("cert-gallery-content").style.display = 'none';
+    document.getElementById("viewer-content").innerHTML = ""; // Clear PDF content
+    currentZoomLevel = 1.0;
+}
+
+function applyZoom() {
+    const images = document.querySelectorAll('#viewer-content img');
+    images.forEach(img => {
+        img.style.setProperty('--zoom-level', currentZoomLevel);
+    });
+}
+
+function zoomIn() {
+    if (currentZoomLevel < maxZoom) {
+        currentZoomLevel = Math.min(maxZoom, currentZoomLevel + zoomStep);
+        applyZoom();
+    }
+}
+
+function zoomOut() {
+    if (currentZoomLevel > minZoom) {
+        currentZoomLevel = Math.max(minZoom, currentZoomLevel - zoomStep);
+        applyZoom();
+    }
+}
+
+// Opens the standard PDF/Image viewer
+function openViewer(project) {
+    const viewer = document.getElementById("viewer");
+    resetViewerModes();
+    
+    // 1. Configure for PDF/Image Viewer
+    viewer.style.justifyContent = 'flex-start'; // Align content to top for scrolling
+    document.getElementById("viewer-content").style.display = 'flex';
+    document.getElementById("pdf-control-bar").style.display = 'flex'; // Show fixed control bar
+
+    // 2. Load content
+    const projectImagesHtml = projects[project]
+        .map(url => `<img src="${url}" alt="${project} page">`)
+        .join("");
+    
+    // Add a final blank page placeholder that matches the dimensions of a project image
+    // This allows the user to scroll down fully and see the last page without cut-off.
+    const blankPageHtml = `<div style="width: 90%; max-width: 900px; height: 1200px; background-color: var(--background-light); margin: 20px auto 40px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); border: 1px dashed var(--background-subtle); display: flex; justify-content: center; align-items: center; color: var(--secondary-text);">End of Project</div>`;
+
+    document.getElementById("viewer-content").innerHTML = projectImagesHtml + blankPageHtml;
+    
+    // 3. Reset zoom and display viewer
+    applyZoom();
+    viewer.style.display = "flex";
+    setTimeout(() => {
+        viewer.classList.add('is-visible');
+    }, 10); 
+    
+    window.scrollTo(0, 0);
+}
+
+// Opens the L'Oréal Video Popup
+function openVideoViewer() {
+    const viewer = document.getElementById("viewer");
+    resetViewerModes();
+
+    // 1. Configure for Video Popup
+    viewer.style.justifyContent = 'center'; // Center content for the small popup
+    document.getElementById("video-viewer").style.display = 'flex';
+
+    // 2. Display viewer
+    viewer.style.display = "flex";
+    setTimeout(() => {
+        viewer.classList.add('is-visible');
+    }, 10); 
+    
+    window.scrollTo(0, 0);
+}
+
+// Opens the Certifications Gallery
+function openCertGallery(startIndex = 0) {
+    const viewer = document.getElementById("viewer");
+    resetViewerModes();
+    
+    // 1. Configure for Gallery
+    viewer.style.justifyContent = 'center';
+    document.getElementById("cert-gallery-content").style.display = 'flex';
+    
+    // 2. Load starting image
+    currentCertIndex = startIndex;
+    updateCertGallery();
+
+    // 3. Display viewer
+    viewer.style.display = "flex";
+    setTimeout(() => {
+        viewer.classList.add('is-visible');
+    }, 10);
+}
+
+function updateCertGallery() {
+    const cert = certifications[currentCertIndex];
+    document.getElementById('current-cert-image').src = cert.url;
+    document.getElementById('cert-title').textContent = cert.title;
+}
+
+function changeCert(step) {
+    currentCertIndex += step;
+    if (currentCertIndex < 0) {
+        currentCertIndex = certifications.length - 1; // Loop back
+    } else if (currentCertIndex >= certifications.length) {
+        currentCertIndex = 0; // Loop forward
+    }
+    updateCertGallery();
+}
+
+
+function closeViewer() {
+    const viewer = document.getElementById("viewer");
+    
+    viewer.classList.remove('is-visible');
+    document.getElementById("pdf-control-bar").style.display = 'none'; // Hide fixed control bar on close
+
+    viewer.addEventListener('transitionend', function handler() {
+        if (!viewer.classList.contains('is-visible')) {
+            viewer.style.display = "none";
+            // Call the reset function to ensure all content is cleared/hidden
+            // Note: resetViewerModes is called again here just in case, but it's primarily used for switching modes.
+            resetViewerModes(); 
+            viewer.removeEventListener('transitionend', handler);
+        }
+    });
+}
+</script>
+
+</body>
+</html>
